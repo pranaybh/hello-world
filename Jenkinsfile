@@ -14,10 +14,20 @@ pipeline {
             }
         }
         stage('Bake') {
-           agent { dockerfile { additionalBuildArgs '-t newwebapp:$BUILD_NUMBER' } }
+           agent { Dockerfile { additionalBuildArgs '-t newwebapp:$BUILD_NUMBER' } }
            steps {
                sh 'docker image ls'
 		}
 	  }
+        stage('Deploy') {
+          agent any
+          steps {
+              input(
+                message: 'Deploy to production?',
+                ok: 'Yes'
+		 )
+             sh 'docker container run -itd -p 8083:8080 newwebapp:$BUILD_NUMBER'
+		}
+	}
     }
 }
