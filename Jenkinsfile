@@ -13,5 +13,11 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+        stage('Bake') {
+           agent { Dockerfile { additionalBuildArgs '-t newwebapp:$BUILD_NUMBER' } }
+           steps {
+               sh 'docker image ls'
+		}
+	  }
     }
 }
