@@ -16,7 +16,7 @@ pipeline {
         stage('Bake') {
            agent { dockerfile { additionalBuildArgs '-t newwebapp:$BUILD_NUMBER' } }
            steps {
-               sh 'docker image ls'
+               sh 'ls -l'
 		}
 	  }
         stage('Deploy') {
